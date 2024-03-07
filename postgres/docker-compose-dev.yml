@@ -1,0 +1,18 @@
+version: '3'
+services:
+  cli: 
+    image: postgres:16.2
+    command: psql -h db -U postgres #uruchamiamy komende psql na hostname db
+    depends_on:
+      - db #chcemy miec pewnosc ze baza danych stoi gdy bedizemy probowali wywolac service cli
+  dump: #ten serwis pozwoli zrzucic zawartosc bazy danych i zrobic kopie zapasowa 
+    image: postgres:16.2
+    command: pg_dump -h db -U postgres
+    depends_on:
+      - db
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
